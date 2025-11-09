@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ProdutoDAO {
 
-    public void salvar(Produto produto) throws SQLException {
+    public void salvar(Produto produto){
         String sql = "INSERT INTO produtos (nome, preco, quantidade) VALUES (?, ?, ?)";
 
         try (Connection con = ConexaoDB.conectar();
@@ -15,10 +15,12 @@ public class ProdutoDAO {
             ps.setInt(3, produto.getQuantidade());
             ps.executeUpdate();
 
+        } catch (SQLException e) {
+            System.out.println("Erro ao salvar produto!");
         }
     }
 
-    public List<Produto> listar() throws SQLException {
+    public List<Produto> listar(){
         List<Produto> produtos = new ArrayList<>();
         String sql = "SELECT * FROM produtos";
         try (Connection con = ConexaoDB.conectar();
@@ -33,11 +35,13 @@ public class ProdutoDAO {
                         rs.getInt("quantidade")
                 ));
             }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar produtos!");
         }
         return produtos;
     }
 
-    public Produto buscarPorId(int id) throws SQLException {
+    public Produto buscarPorId(int id){
         String sql = "SELECT * FROM produtos WHERE id = ?";
 
         try (Connection con = ConexaoDB.conectar();
@@ -53,11 +57,13 @@ public class ProdutoDAO {
                         rs.getInt("quantidade")
                 );
             }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar produto!");
         }
         return null;
     }
 
-    public void atualizar(Produto produto) throws SQLException {
+    public void atualizar(Produto produto){
         String sql = "UPDATE produtos SET nome = ?, preco = ?, quantidade = ? WHERE id = ?";
 
         try (Connection con = ConexaoDB.conectar();
@@ -68,10 +74,12 @@ public class ProdutoDAO {
             ps.setInt(3, produto.getQuantidade());
             ps.setInt(4, produto.getId());
             ps.executeUpdate();
+        }  catch (SQLException e) {
+            System.out.println("Erro ao atualizar produto!");
         }
     }
 
-    public void deletar (int id) throws SQLException {
+    public void deletar (int id){
         String sql = "DELETE FROM produtos WHERE id = ?";
 
         try (Connection con = ConexaoDB.conectar();
@@ -79,6 +87,8 @@ public class ProdutoDAO {
         ){
             ps.setInt(1, id);
             ps.executeUpdate();
+        }  catch (SQLException e) {
+            System.out.println("Erro ao deletar produto!");
         }
     }
 }
