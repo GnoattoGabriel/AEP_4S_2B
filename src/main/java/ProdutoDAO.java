@@ -16,7 +16,7 @@ public class ProdutoDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Erro ao salvar produto!");
+            System.out.println("Erro ao salvar produto!" + e.getMessage());
         }
     }
 
@@ -36,7 +36,7 @@ public class ProdutoDAO {
                 ));
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao listar produtos!");
+            System.out.println("Erro ao listar produtos!" + e.getMessage());
         }
         return produtos;
     }
@@ -58,7 +58,7 @@ public class ProdutoDAO {
                 );
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar produto!");
+            System.out.println("Erro ao buscar produto!" + e.getMessage());
         }
         return null;
     }
@@ -88,7 +88,7 @@ public class ProdutoDAO {
             ps.setInt(1, id);
             ps.executeUpdate();
         }  catch (SQLException e) {
-            System.out.println("Erro ao deletar produto!");
+            System.out.println("Erro ao deletar produto!" + e.getMessage());
         }
     }
 }
