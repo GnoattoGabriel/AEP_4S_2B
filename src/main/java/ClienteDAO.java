@@ -15,6 +15,8 @@ public class ClienteDAO {
             stmt.setString(3, cliente.getTelefone());
             stmt.executeUpdate();
 
+            Log.registrar("Cliente cadastrado: " + cliente.getNome() + " - " + cliente.getEmail());
+
         } catch (SQLException e) {
             System.out.println("Erro ao inserir cliente: " + e.getMessage());
         }
@@ -79,6 +81,8 @@ public class ClienteDAO {
             stmt.setInt(4, cliente.getId());
             stmt.executeUpdate();
 
+            Log.registrar("Cliente atualizado: ID " + cliente.getId() + " - " + cliente.getNome());
+
         } catch (SQLException e) {
             System.out.println("Erro ao atualizar cliente: " + e.getMessage());
         }
@@ -92,6 +96,8 @@ public class ClienteDAO {
 
             ps.setInt(1, id);
             ps.executeUpdate();
+
+            Log.registrar("Cliente deletado: ID " + id);
 
         } catch (SQLException e) {
             System.out.println("Erro ao excluir cliente: " + e.getMessage());

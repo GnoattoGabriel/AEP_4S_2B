@@ -15,6 +15,8 @@ public class ProdutoDAO {
             ps.setInt(3, produto.getQuantidade());
             ps.executeUpdate();
 
+            Log.registrar("Produto cadastrado: " + produto.getNome());
+
         } catch (SQLException e) {
             System.out.println("Erro ao salvar produto!" + e.getMessage());
         }
@@ -74,6 +76,8 @@ public class ProdutoDAO {
             ps.setInt(3, produto.getQuantidade());
             ps.setInt(4, produto.getId());
             ps.executeUpdate();
+
+            Log.registrar("Produto atualizado: ID " + produto.getId() + " - " + produto.getNome());
         }  catch (SQLException e) {
             System.out.println("Erro ao atualizar produto!");
         }
@@ -87,6 +91,8 @@ public class ProdutoDAO {
         ){
             ps.setInt(1, id);
             ps.executeUpdate();
+
+            Log.registrar("Produto deletado: ID " + id);
         }  catch (SQLException e) {
             System.out.println("Erro ao deletar produto!" + e.getMessage());
         }

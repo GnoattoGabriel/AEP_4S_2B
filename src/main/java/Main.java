@@ -1,17 +1,20 @@
 import java.util.Scanner;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ProdutoDAO produtoDAO = new ProdutoDAO();
         ClienteDAO clienteDAO = new ClienteDAO();
+        VendasDAO vendasDAO = new VendasDAO();
 
         while (true) {
             System.out.println("\n=== MENU PRINCIPAL ===");
             System.out.println("1 - Gerenciar Produtos");
             System.out.println("2 - Gerenciar Clientes");
-            System.out.println("3 - Sair");
+            System.out.println("3 - Gerenciar Vendas");
+            System.out.println("4 - Sair");
             System.out.print("Escolha: ");
             int menuPrincipal = scanner.nextInt();
             scanner.nextLine();
@@ -26,6 +29,10 @@ public class Main {
                     break;
 
                 case 3:
+                    menuVendas(scanner, vendasDAO, clienteDAO);
+                    break;
+
+                case 4:
                     System.out.println("Encerrando...");
                     scanner.close();
                     return;
@@ -201,6 +208,77 @@ public class Main {
                         break;
 
                     case 6:
+                        return;
+
+                    default:
+                        System.out.println("Opção inválida!");
+                }
+            } catch (Exception e) {
+                System.out.println("Erro: " + e.getMessage());
+                scanner.nextLine();
+            }
+        }
+    }
+
+    // ----------------- MENU VENDAS -----------------
+    private static void menuVendas(Scanner scanner, VendasDAO vendaDAO, ClienteDAO clienteDAO) {
+        while (true) {
+            System.out.println("\n=== MENU VENDAS ===");
+            System.out.println("1 - Registrar venda");
+            System.out.println("2 - Listar vendas");
+            System.out.println("3 - Buscar por ID");
+            System.out.println("4 - Deletar venda");
+            System.out.println("5 - Voltar");
+            System.out.print("Escolha: ");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();
+
+            try {
+                switch (opcao) {
+                    case 1:
+                        System.out.print("ID do cliente: ");
+                        int clienteId = scanner.nextInt();
+                        scanner.nextLine();
+                        Cliente cliente = clienteDAO.buscarPorId(clienteId);
+
+                        if (cliente == null) {
+                            System.out.println("Cliente não encontrado!");
+                            break;
+                        }
+
+                        System.out.print("Valor total da venda: ");
+                        double valor = scanner.nextDouble();
+                        scanner.nextLine();
+
+                        Venda novaVenda = new Venda(clienteId, valor, LocalDateTime.now());
+                        vendaDAO.salvar(novaVenda);
+                        System.out.println("Venda registrada com sucesso!");
+                        break;
+
+                    case 2:
+                        System.out.println("\n=== LISTA DE VENDAS ===");
+                        List<Venda> vendas = vendaDAO.listar();
+                        for (Venda v : vendas) {
+                            System.out.println(v);
+                        }
+                        break;
+
+                    case 3:
+                        System.out.print("Digite o ID da venda: ");
+                        int idBuscar = scanner.nextInt();
+                        Venda v = vendaDAO.buscarPorId(idBuscar);
+                        if (v != null) System.out.println(v);
+                        else System.out.println("Venda não encontrada!");
+                        break;
+
+                    case 4:
+                        System.out.print("ID da venda a deletar: ");
+                        int idDel = scanner.nextInt();
+                        vendaDAO.deletar(idDel);
+                        System.out.println("Venda deletada com sucesso!");
+                        break;
+
+                    case 5:
                         return;
 
                     default:
